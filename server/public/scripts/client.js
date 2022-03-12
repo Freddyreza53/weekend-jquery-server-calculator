@@ -1,7 +1,7 @@
 
 $(ready)
 
-let operator;
+let operator = '';
 
 let solution = 0;
 let userInput = '';
@@ -13,45 +13,88 @@ function ready() {
     $('#subtract').on('click', subtractionClicked);
     $('#multiply').on('click', multiplicationClicked);
     $('#divide').on('click', divisionClicked);
+    $('#clear').on('click', clearClicked);
 
     getHistory();
 }
 
 function equalsClicked() {
+    $('input').removeClass('red');
+    $('button').removeClass('red');
+    $('#required').empty();
+
     let firstInput = $('#firstInput').val();
     let secondInput = $('#secondInput').val();
 
-    $.ajax({
-        url: '/inputs',
-        method: 'POST',
-        data: {
-        firstInput: firstInput,
-        operator: operator,
-        secondInput: secondInput
+    if (firstInput === '' || secondInput === '') {
+        $('#required').text('* All Fields Required');
+        $('#addition').addClass('red');
+        $('#subtract').addClass('red');
+        $('#multiply').addClass('red');
+        $('#divide').addClass('red');
+        if (firstInput === '') {
+            $('#firstInput').addClass('red');
         }
-    }).then(function (response) {
-        console.log(response);
-    })
+        if (secondInput === '') {
+            $('#secondInput').addClass('red');
+        }  
+        
+    }
+    else if (operator === '') {
+        $('#required').text('* Must Choose Operator');
+        $('#addition').addClass('red');
+        $('#subtract').addClass('red');
+        $('#multiply').addClass('red');
+        $('#divide').addClass('red');
+    }  
+    else {
+        $.ajax({
+            url: '/inputs',
+            method: 'POST',
+            data: {
+            firstInput: firstInput,
+            operator: operator,
+            secondInput: secondInput
+            }
+        }).then(function (response) {
+            console.log(response);
+        })
 
-    getHistory();
+        getHistory();
+    }
+    
+}
+
+function clearClicked() {
+    operator = '';
+    $('button').removeClass('clicked');
+    $('input').val('');
 }
 
 function additionClicked() {
+    $('button').removeClass('red');
+    $(this).toggleClass('clicked');
     operator = $(this).text();
     return operator;
 }
 
 function subtractionClicked() {
+    $('button').removeClass('red');
+    $(this).toggleClass('clicked');
     operator = $(this).text();
     return operator;
 }
 
 function multiplicationClicked() {
+    $('button').removeClass('red');
+    $(this).toggleClass('clicked');
     operator = $(this).text();
     return operator;
 }
 
 function divisionClicked() {
+    $('button').removeClass('red');
+    $(this).toggleClass('clicked');
     operator = $(this).text();
     return operator;
 }
@@ -63,22 +106,72 @@ function getHistory() {
     }).then(function (response) {
         console.log(response);
 
-        answer = response.outputs[response.outputs.length - 1];
-        userInput = renderUserInputs(response);
-        console.log(answer);
-        $('#solution').text(answer);
-        $('#userHistory').append(`<li>${userInput}=${answer}</li>`)
+        showAnswer = response.outputs[response.outputs.length - 1];
+        $('#solution').text(showAnswer);
+
+        renderUserInputs(response.inputs, response.outputs);
+    
+        // $('#userHistory').append(`<li>${userInput}=${answer}</li>`)
 
     })
 }
 
-function renderUserInputs(theInputs) {
-    let firstUserInput = theInputs.inputs[theInputs.inputs.length - 1].firstInput;
-    let operatorUserInput = theInputs.inputs[theInputs.inputs.length - 1].operator;
-    let secondUserInput = theInputs.inputs[theInputs.inputs.length - 1].secondInput;
+function renderUserInputs(theInputs, userAnswer) {
+    let firstUserInput;
+    let operatorUserInput;
+    let secondUserInput;
+    let finalInput;
 
-    let finalInput = firstUserInput + operatorUserInput + secondUserInput;
+    $('#userHistory').empty();
 
-    return finalInput;
+    for (let i = 0; i < theInputs.length; i++) {
+        firstUserInput = theInputs[i].firstInput;
+        operatorUserInput = theInputs[i].operator;
+        secondUserInput = theInputs[i]. secondInput;
+
+        finalInput = firstUserInput + operatorUserInput + secondUserInput;
+        $('#userHistory').prepend(`<li>${finalInput}=${userAnswer[i]}</li>`)
+
+    }
+    // for(let theInput of theInputs) {
+    //     firstUserInput = theInput.firstInput;
+    //     operatorUserInput = theInput.operator;
+    //     secondUserInput = theInput. secondInput;
+    //     for (let answer of userAnswer) {
+            
+    //         finalInput = firstUserInput + operatorUserInput + secondUserInput;
+    //         $('#userHistory').append(`<li>${finalInput}=${answer}</li>`)
+
+    //     }
+        
+    // }
 }
+
+// function renderUserAnswer() {
+//     $.ajax({
+//         url: '/inputs',
+//         method: 'GET',
+//     }).then(function (response) {
+//         console.log(response);
+
+//         answer = response.outputs[response.outputs.length - 1];
+//         console.log(answer);
+        
+//         // $('#userHistory').append(`<li>${userInput}=${answer}</li>`)
+
+//     })
+// }
+
+
+
+
+// function renderUserInputs(theInputs) {
+//     let firstUserInput = theInputs.inputs[theInputs.inputs.length - 1].firstInput;
+//     let operatorUserInput = theInputs.inputs[theInputs.inputs.length - 1].operator;
+//     let secondUserInput = theInputs.inputs[theInputs.inputs.length - 1].secondInput;
+
+//     let finalInput = firstUserInput + operatorUserInput + secondUserInput;
+
+//     return finalInput;
+// }
 

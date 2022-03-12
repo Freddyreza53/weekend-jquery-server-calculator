@@ -12,22 +12,36 @@
 </head>
 <body>
     <h1>Calculator</h1>
-    <header id="container">
-        <input id="firstInput" type="number" placeholder="First Number">
-        <button id="addition">+</button>
-        <button id="subtract">-</button>
-        <button id="multiply">x</button>
-        <button id="divide">/</button>
-        <input id="secondInput" type="number" placeholder="Second Number">
-        <button id="equals">=</button>
-    </header>
+    <section id="required"></section>
+    <div id="bodyContainer">
+        <main id="userContainer">
+            <h3>My History</h3>
+            <div>
+                <ul id="userHistory"></ul>
+            </div>
+        </main>
+        <div id="mainContainer">
+            <header id="container">
+                
+                <div>
+                    <input id="firstInput" type="number" placeholder="First Number">
+                    <button class="mustUse" id="addition">+</button>
+                    <button class="mustUse" id="subtract">-</button>
+                    <button class="mustUse" id="multiply">x</button>
+                    <button class="mustUse" id="divide">/</button>
+                    <input id="secondInput" type="number" placeholder="Second Number">
+                    <button id="equals">=</button>
+                    <button id="clear">C</button>
+                </div>
 
-    <section id="solution">0</section>
+            </header>
 
-    <main id="userContainer">
-        <div>
-            <ul id="userHistory"></ul>
+            <div id="resultContainer">
+                <section class="results">Results: <span id="solution"></span></section>
+            </div>
         </div>
-    </main>
+    </div>
+    
+    
 </body>
 </html>

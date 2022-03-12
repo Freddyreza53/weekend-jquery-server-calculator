@@ -50,7 +50,7 @@ function calculate(inputsToCalculate) {
 }
 
 app.get('/inputs', (req, res) => {
-    console.log('GET inputs');
+    console.log('GET inputs', history);
     res.send(history);
 })
 
