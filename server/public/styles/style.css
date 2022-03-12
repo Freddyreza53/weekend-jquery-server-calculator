@@ -10,6 +10,7 @@
     justify-content: center;
     color: red;
 }
+
 header {
     display: flex;
     justify-content: center;
@@ -39,7 +40,6 @@ section {
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
-    border: 2px solid black;
     height: 70%;
 }
 #resultContainer {
