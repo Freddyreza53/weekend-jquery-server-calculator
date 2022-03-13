@@ -1,8 +1,14 @@
+body {
+    background-image: url(https://miro.medium.com/max/1400/1*L76A5gL6176UbMgn7q4Ybg.jpeg);
+}
+
 #bodyContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
+    background-color: white;
+    height: 500px;
 }
 
 #required {
@@ -10,7 +16,9 @@
     justify-content: center;
     color: red;
 }
-
+#inputs {
+    padding-top: 10px;
+}
 header {
     display: flex;
     justify-content: center;
@@ -19,6 +27,7 @@ header {
 
 h1 {
     text-align: center;
+    background-color: white;
     color: black;
 }
 
